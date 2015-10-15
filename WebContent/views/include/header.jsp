@@ -7,14 +7,18 @@
 			<h1>MySite</h1>
 			<ul>
 			<%
-				if(vo==null){
+				if(vo == null){
 			%>
 				<li><a href="/mysite/member?a=loginform">로그인</a><li>
 				<li><a href="/mysite/member?a=joinform">회원가입</a><li>
-			<% } else {%>	
+			<% 
+				} else {
+			%>	
 				<li><a href="">회원정보수정</a><li>
-				<li><a href="/mysite/main">로그아웃</a><li>
+				<li><a href="/mysite/member?a=logout">로그아웃</a><li>
 				<li><%=vo.getName()%>님 안녕하세요 ^^;</li>
-			<% } %>
+			<% 
+				} 
+			%>
 			</ul>
 		</div>

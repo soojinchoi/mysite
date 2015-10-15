@@ -21,7 +21,7 @@ public class MemberActionFactory extends ActionFactory {
 		} else if("login".equals(actionName)){
 			action = new LoginAction();
 		} else if("logout".equals(actionName)){
-		//	action = new LogOutAction();
+			action = new LogoutAction();
 		} else {
 			// error 처리 
 			action = new IndexAction();

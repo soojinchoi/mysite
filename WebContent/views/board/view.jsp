@@ -1,4 +1,10 @@
+<%@page import="com.bit2015.mysite.vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.bit2015.mysite.vo.BoardVo"%>
+<%
+	BoardVo vo = ( BoardVo )request.getAttribute( "board" ); 
+	MemberVo authUser = (MemberVo)session.getAttribute("authUser");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,35 +23,35 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>제목입니다.</td>
+						<td><%=vo.getTitle()%></td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								내용 1입니다.<br>
-								내용 2입니다.<br>
-								내용 3입니다.
+							<%=vo.getContent().replaceAll("\n","<br>")%>
 							</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="">글목록</a>
-					<a href="">글수정</a>
+					<a href="/mysite/board?a=board">글목록</a>
+					<%
+						if( authUser != null && authUser.getNo() == vo.getMemberNo()){
+					%>
+					<a href="/mysite/board?a=modifyform&no=<%=vo.getNo()%>">글수정</a>
+					<% 
+						}else{
+					%>
+						&nbsp;
+					<% 
+						}
+					%>						
 				</div>
 			</div>
 		</div>
-		<div id="navigation">
-			<ul>
-				<li><a href="">안대혁</a></li>
-				<li><a href="">방명록</a></li>
-				<li><a href="">게시판</a></li>
-			</ul>
-		</div>
-		<div id="footer">
-			<p>(c)opyright 2014 </p>
-		</div>
+		<jsp:include page="/views/include/navigation.jsp" ></jsp:include>
+		<jsp:include page="/views/include/footer.jsp" ></jsp:include>
 	</div>
 </body>
 </html>

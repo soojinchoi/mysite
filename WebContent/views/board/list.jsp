@@ -1,4 +1,12 @@
+<%@page import="com.bit2015.mysite.vo.MemberVo"%>
+<%@page import="com.bit2015.mysite.vo.BoardVo"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	MemberVo authUser = (MemberVo)session.getAttribute( "authUser" );
+	String keyword = (String)request.getAttribute("kwd");
+	List<BoardVo> list = (List<BoardVo>)request.getAttribute( "list" );
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +20,7 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+					<input type="text" id="kwd" name="kwd" value="<%=keyword%>">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -23,47 +31,55 @@
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>&nbsp;</th>
-					</tr>				
+					</tr>	
+					<%
+						int totalCount = list.size();
+						int index = 0;
+						for( BoardVo vo : list ) {
+					%>			
 					<tr>
-						<td>3</td>
-						<td><a href="">세 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><%=totalCount-index++ %></td>
+						<td><a href="/mysite/board?a=contentview&no=<%=vo.getNo()%>"><%=vo.getTitle()%></a></td>
+						<td><%=vo.getMemberName()%></td>
+						<td><%=vo.getViewCnt() %></td>
+						<td><%=vo.getRegDate() %></td>
+						<td>
+						<% 
+							if( authUser != null && authUser.getNo() == vo.getMemberNo() ) {
+						
+						%>	
+							<a href="/mysite/board?a=delete&no=<%=vo.getNo()%>" class="del">삭제</a>
+						<%
+							}else {
+						%>
+							&nbsp;
+						<% 
+							}
+						%>
+
+						</td>
 					</tr>
-					<tr>
-						<td>2</td>
-						<td><a href="">두 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td><a href="">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
+					<%
+						}
+					%>
 				</table>
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+				<% 
+					if( authUser != null ) {
+				%>
+					<a href="/mysite/board?a=writeform" id="new-book">글쓰기</a>
+				<%
+						}else {
+				%>
+						&nbsp;
+				<% 
+						}
+				%>
 				</div>				
 			</div>
 		</div>
-		<div id="navigation">
-			<ul>
-				<li><a href="">안대혁</a></li>
-				<li><a href="">방명록</a></li>
-				<li><a href="">게시판</a></li>
-			</ul>
-		</div>
-		<div id="footer">
-			<p>(c)opyright 2014 </p>
-		</div>
+		<jsp:include page="/views/include/navigation.jsp" ></jsp:include>
+		<jsp:include page="/views/include/footer.jsp" ></jsp:include>
 	</div>
 </body>
 </html>

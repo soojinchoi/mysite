@@ -25,26 +25,7 @@ public class GuestbookDao {
 		return con;
 	}
 	
-	public void delete(String num,String password){
-	      try{
-	         Connection con=getConnection();
-	         Long no=Long.parseLong(num);
-	         String sql="delete from guestbook where no=? and password=?";
-	         PreparedStatement pstmt=con.prepareStatement(sql);
-	         
-	         pstmt.setLong(1, no);
-	         pstmt.setString(2, password);
-	         pstmt.executeUpdate();
-	         
-	         pstmt.close();
-	         con.close();
-	         
-	      }catch(SQLException e){
-	         System.out.println("SQL 오류-" + e);
-	      }
-	   }
-	
-	public void insert(GuestbookVo vo){
+	public void insert(GuestbookVo vo){		
 		try{
 			Connection connection = getConnection();
 			//3.Statement 준비
@@ -65,7 +46,7 @@ public class GuestbookDao {
 
 		}catch(SQLException ex){
 			System.out.println("SQL 오류-"+ex);
-		}
+		}	
 	}
 	
 	public List<GuestbookVo> getList() {//테이블에 있는 모든 소스를 리스트로 가져온다
@@ -109,4 +90,22 @@ public class GuestbookDao {
 	}
 	
 	
+	public void delete(String num,String password){
+	      try{
+	         Connection con=getConnection();
+	         Long no=Long.parseLong(num);
+	         String sql="delete from guestbook where no=? and password=?";
+	         PreparedStatement pstmt=con.prepareStatement(sql);
+	         
+	         pstmt.setLong(1, no);
+	         pstmt.setString(2, password);
+	         pstmt.executeUpdate();
+	         
+	         pstmt.close();
+	         con.close();
+	         
+	      }catch(SQLException e){
+	         System.out.println("SQL 오류-" + e);
+	      }
+	   }
 }

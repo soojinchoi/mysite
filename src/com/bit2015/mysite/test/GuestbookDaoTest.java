@@ -29,7 +29,6 @@ public class GuestbookDaoTest {
 		vo.setPassword("1234");
 		vo.setMessage("하이루");
 		
-		dao.insert(vo);
 	}
 	
 	public static void DeleteTest(){
