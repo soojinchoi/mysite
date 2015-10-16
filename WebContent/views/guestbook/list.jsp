@@ -1,9 +1,13 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page import="com.bit2015.mysite.vo.MemberVo"%>
 <%@page import="com.bit2015.mysite.vo.GuestbookVo"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <% 
-	List<GuestbookVo> list =(List<GuestbookVo>)request.getAttribute("list");
+	String newLine = "\n";
+	pageContext.setAttribute("newLine", "\n");
 %>
 <!doctype html>
 <html>
@@ -14,7 +18,7 @@
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/views/include/header.jsp"></jsp:include>
+		<c:import url="/views/include/header.jsp"></c:import>
 		<div id="content">
 			<div id="guestbook">
 				<form action="/mysite/gb" method="post">
@@ -35,34 +39,36 @@
 				
 				<ul>
 					<li>
-						<%
+						<%-- <%
 							int countTotal = list.size();
 							int index = 0;
 							for(GuestbookVo vo:list){
-						%>	
+						%> --%>	
+						<c:set var='count' value='${fn:length(list)}'></c:set>
+						<c:forEach items='${list}' var="vo" varStatus="status">
 						<table>
 							<tr>
-								<td>[<%=countTotal-index++ %>]</td>
-								<td><%=vo.getName()%></td>
-								<td><%=vo.getRegDate()%></td>
-								<td><a href="/mysite/gb?a=deleteform&no=<%=vo.getNo()%>">삭제</a></td>
+								<td>[${count-status.index}]</td>
+								<td>${vo.name}</td>
+								<td>${vo.regDate}</td>
+								<td><a href="/mysite/gb?a=deleteform&no=${vo.no}">삭제</a></td>
 							</tr>
 							<tr>
 								<td colspan=4>
-								<%=vo.getMessage().replaceAll("\n","<br>")%>	
+								<%-- <%=vo.getMessage().replaceAll("\n","<br>")%> --%>	
+								${fn:replace(vo.message, newLine,'<br>')}
 								</td>
 							</tr>
 						</table>
-					<%
-						}
-					%>
+						</c:forEach>
+
 						<br>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<jsp:include page="/views/include/navigation.jsp" ></jsp:include>
-		<jsp:include page="/views/include/footer.jsp" ></jsp:include>
+		<c:import url="/views/include/navigation.jsp"></c:import>
+		<c:import url="/views/include/footer.jsp"></c:import>
 	</div>
 </body>
 </html>

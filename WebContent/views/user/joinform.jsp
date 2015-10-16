@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html>
@@ -8,10 +11,10 @@
 </head>
 <body>
 	<div id="container">
-	<jsp:include page="/views/include/header.jsp"></jsp:include>
+	<c:import url="/views/include/header.jsp"></c:import>
 		<div id="content">
 			<div id="user">
-
+			
 				<form id="join-form" name="joinForm" method="post" action="/mysite/member">
 					<input type="hidden" name="a" value="join">
 				
@@ -42,8 +45,8 @@
 				</form>
 			</div>
 		</div>
-			<jsp:include page="/views/include/navigation.jsp"></jsp:include>
-			<jsp:include page="/views/include/footer.jsp"></jsp:include>
+		<c:import url="/views/include/navigation.jsp"></c:import>
+		<c:import url="/views/include/footer.jsp"></c:import>
 	</div>
 </body>
 </html>
